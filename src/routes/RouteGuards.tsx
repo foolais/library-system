@@ -11,5 +11,5 @@ export const ProtectedRoute = () => {
 };
 
 export const PublicRoute = () => {
-  return !isAuthenticated() ? <Outlet /> : <Navigate to="/books" />;
+  return !isAuthenticated() ? <Outlet /> : <Navigate to="/loans" />;
 };

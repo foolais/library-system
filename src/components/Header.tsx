@@ -1,12 +1,20 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { LinkData } from "../lib/data";
 import { LogOut, User } from "lucide-react";
 import { useAuthStore } from "../stores/auth.store";
 import { useLogout } from "../features/auth/auth.hook";
+import { cn } from "../lib/utils";
 
 const Header = () => {
   const user = useAuthStore((state) => state.user);
+  const navigate = useNavigate();
   const { handleLogout } = useLogout();
+
+  const handleNavigateToAuth = () => {
+    if (user) return;
+
+    navigate("/auth");
+  };
 
   return (
     <div className="border-border h-16 w-full border-b bg-white shadow-md">
@@ -35,17 +43,27 @@ const Header = () => {
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <div className="bg-primary rounded-full p-1">
+            <div
+              className={cn(
+                "bg-primary rounded-full p-1",
+                !user ? "cursor-pointer" : "",
+              )}
+              onClick={handleNavigateToAuth}
+            >
               <User className="text-white" />
             </div>
-            <span className="hidden text-sm font-semibold md:block">
-              {user?.username}
-            </span>
+            {user && (
+              <span className="hidden text-sm font-semibold md:block">
+                {user?.username}
+              </span>
+            )}
           </div>
-          <button className="btn-destructive p-1" onClick={handleLogout}>
-            <span className="sr-only">Logout</span>
-            <LogOut className="size-4" />
-          </button>
+          {user && (
+            <button className="btn-destructive p-1" onClick={handleLogout}>
+              <span className="sr-only">Logout</span>
+              <LogOut className="size-4" />
+            </button>
+          )}
         </div>
       </div>
     </div>

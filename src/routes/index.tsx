@@ -6,6 +6,7 @@ import LoansPage from "../page/Loans";
 import FinesPage from "../page/Fines";
 
 export const router = createBrowserRouter([
+  { path: "/books", element: <BooksPage /> },
   {
     element: <PublicRoute />,
     children: [{ path: "/auth", element: <AuthPage /> }],
@@ -13,7 +14,6 @@ export const router = createBrowserRouter([
   {
     element: <ProtectedRoute />,
     children: [
-      { path: "/books", element: <BooksPage /> },
       { path: "/loans", element: <LoansPage /> },
       { path: "/fines", element: <FinesPage /> },
     ],
