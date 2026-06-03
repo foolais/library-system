@@ -61,7 +61,7 @@ State autentikasi dikelola menggunakan Zustand, termasuk penyimpanan token JWT d
 
 ## Screenshot / Demo
 
-## Screenshots
+## screenshots
 
 ### Authentication
 
