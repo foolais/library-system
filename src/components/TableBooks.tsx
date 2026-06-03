@@ -43,7 +43,7 @@ const TableBooks = () => {
               </th>
               <th
                 scope="col"
-                className="table-th w-[60%] sm:w-[42%] md:w-[25%]"
+                className="table-th w-[60%] text-left sm:w-[42%] md:w-[25%]"
               >
                 Judul Buku
               </th>

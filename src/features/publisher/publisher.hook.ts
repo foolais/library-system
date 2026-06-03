@@ -1,40 +1,40 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  createAuthorBook,
-  deleteAuthorBook,
-  getAllAuthorBook,
-  getDetailAuthorBook,
-  updateAuthorBook,
-} from "./author.service";
+  createPublisherBook,
+  deletePublisherBook,
+  getAllPublisherBook,
+  getDetailPublisherBook,
+  updatePublisherBook,
+} from "./publisher.service";
 import { useUIStore } from "../../stores/ui.store";
 import toast from "react-hot-toast";
-import type { AuthorBook } from "./author.types";
+import type { PublisherBook } from "./publisher.type";
 
-export const useAuthorBooks = () => {
+export const usePublisherBooks = () => {
   return useQuery({
-    queryKey: ["all-author-books"],
-    queryFn: () => getAllAuthorBook(),
+    queryKey: ["all-publisher-books"],
+    queryFn: () => getAllPublisherBook(),
   });
 };
 
-export const useAuthorBook = (id: string) => {
+export const usePublisherBook = (id: string) => {
   return useQuery({
-    queryKey: ["author-book", id],
-    queryFn: () => getDetailAuthorBook(id),
+    queryKey: ["publisher-book", id],
+    queryFn: () => getDetailPublisherBook(id),
   });
 };
 
-export const useCreateAuthorBook = () => {
+export const useCreatePublisherBook = () => {
   const queryClient = useQueryClient();
   const setModal = useUIStore((state) => state.setModal);
 
   return useMutation({
-    mutationFn: createAuthorBook,
+    mutationFn: createPublisherBook,
     onSuccess(response) {
-      queryClient.invalidateQueries({ queryKey: ["all-author-books"] });
+      queryClient.invalidateQueries({ queryKey: ["all-publisher-books"] });
 
       setModal(false, null);
-      toast.success(response.status || "Author book created successfully!");
+      toast.success(response.status || "publisher book created successfully!");
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError(error: any) {
@@ -54,20 +54,22 @@ export const useCreateAuthorBook = () => {
   });
 };
 
-export const useUpdateAuthorBook = () => {
+export const useUpdatePublisherBook = () => {
   const queryClient = useQueryClient();
   const setModal = useUIStore((state) => state.setModal);
 
   return useMutation({
-    mutationFn: ({ data }: { id: string; data: AuthorBook }) =>
-      updateAuthorBook(data),
+    mutationFn: ({ data }: { id: string; data: PublisherBook }) =>
+      updatePublisherBook(data),
     onSuccess(response) {
-      queryClient.invalidateQueries({ queryKey: ["all-author-books"] });
-      queryClient.invalidateQueries({ queryKey: ["author-book"] });
+      queryClient.invalidateQueries({ queryKey: ["all-publisher-books"] });
+      queryClient.invalidateQueries({ queryKey: ["publisher-book"] });
 
       setModal(false, null);
       toast.success(
-        response.msg || response.status || "Author book created successfully!",
+        response.msg ||
+          response.status ||
+          "publisher book created successfully!",
       );
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -88,17 +90,17 @@ export const useUpdateAuthorBook = () => {
   });
 };
 
-export const useDeleteAuthorBook = () => {
+export const useDeletePublisherBook = () => {
   const queryClient = useQueryClient();
   const setModal = useUIStore((state) => state.setModal);
 
   return useMutation({
-    mutationFn: (id: string) => deleteAuthorBook(id),
+    mutationFn: (id: string) => deletePublisherBook(id),
     onSuccess(response) {
-      queryClient.invalidateQueries({ queryKey: ["all-author-books"] });
+      queryClient.invalidateQueries({ queryKey: ["all-publisher-books"] });
 
       setModal(false, null);
-      toast.success(response.msg || "Author book deleted successfully!");
+      toast.success(response.msg || "publisher book deleted successfully!");
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError(error: any) {

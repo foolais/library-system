@@ -2,9 +2,11 @@ import AuthorModal from "../components/AuthorModal";
 import ButtonAddModal from "../components/ButtonAddModal";
 import CategoryModal from "../components/CategoryModal";
 import Header from "../components/Header";
+import PublisherModal from "../components/modal/PublisherModal";
 import TableAuthors from "../components/TableAuthor";
 import TableBooks from "../components/TableBooks";
 import TableCategory from "../components/TableCategory";
+import TablePublishers from "../components/TablePublisher";
 import TabsBook from "../components/TabsBook";
 import { useUIStore } from "../stores/ui.store";
 
@@ -15,7 +17,7 @@ const BooksPage = () => {
     <>
       <Header />
       <div className="main-container">
-        <div className="flex w-full items-center justify-between">
+        <div className="flex w-full flex-col items-center justify-between gap-4 sm:flex-row">
           <TabsBook />
           {activeTab === "category" && (
             <ButtonAddModal>
@@ -27,11 +29,16 @@ const BooksPage = () => {
               <AuthorModal />
             </ButtonAddModal>
           )}
+          {activeTab === "publisher" && (
+            <ButtonAddModal>
+              <PublisherModal />
+            </ButtonAddModal>
+          )}
         </div>
         {activeTab === "all" && <TableBooks />}
         {activeTab === "category" && <TableCategory />}
         {activeTab === "author" && <TableAuthors />}
-        {activeTab === "publisher" && <div>borrowed</div>}
+        {activeTab === "publisher" && <TablePublishers />}
       </div>
     </>
   );

@@ -1,21 +1,21 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUIStore } from "../stores/ui.store";
-import {
-  useAuthorBook,
-  useCreateAuthorBook,
-  useUpdateAuthorBook,
-  useDeleteAuthorBook,
-} from "../features/author/author.hook";
-import {
-  authorBookSchema,
-  type AuthorFormData,
-} from "../features/author/author.schema";
-import Modal from "./Modal";
 import { Edit, Trash } from "lucide-react";
+import { useUIStore } from "../../stores/ui.store";
+import {
+  useCreatePublisherBook,
+  useDeletePublisherBook,
+  usePublisherBook,
+  useUpdatePublisherBook,
+} from "../../features/publisher/publisher.hook";
+import {
+  publisherBookSchema,
+  type PublisherFormData,
+} from "../../features/publisher/publisher.schema";
+import Modal from "../Modal";
 
-const AuthorModal = () => {
+const PublisherModal = () => {
   const isModalOpen = useUIStore((state) => state.isModalOpen);
   const modalId = useUIStore((state) => state.modalId);
   const modalMode = useUIStore((state) => state.modalMode);
@@ -25,42 +25,45 @@ const AuthorModal = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   const {
-    data: authorResponse,
+    data: publisherResponse,
     isLoading,
     isError,
-  } = useAuthorBook(!isCreateMode && modalId ? modalId : "");
-  const author = authorResponse?.data || authorResponse;
+  } = usePublisherBook(!isCreateMode && modalId ? modalId : "");
+  const publisher = publisherResponse?.data || publisherResponse;
 
-  const createMutation = useCreateAuthorBook();
-  const updateMutation = useUpdateAuthorBook();
-  const deleteMutation = useDeleteAuthorBook();
+  const createMutation = useCreatePublisherBook();
+  const updateMutation = useUpdatePublisherBook();
+  const deleteMutation = useDeletePublisherBook();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<AuthorFormData>({
-    resolver: zodResolver(authorBookSchema),
+  } = useForm<PublisherFormData>({
+    resolver: zodResolver(publisherBookSchema),
   });
 
   useEffect(() => {
     if (isCreateMode) {
       reset({
-        penulis_buku: "",
-        alamat_penulis: "",
-        email_penulis: "",
-        deskripsi: "",
+        penerbit_buku: "",
+        alamat_penerbit: "",
+        telp_penerbit: "",
+        email_penerbit: "",
+        deskripsi_penerbit: "",
       });
-    } else if (author) {
+    } else if (publisher) {
       reset({
-        penulis_buku: author.penulis_buku || "",
-        alamat_penulis: author.alamat_penulis || author.alamat || "",
-        email_penulis: author.email_penulis || "",
-        deskripsi: author.deskripsi || "",
+        penerbit_buku: publisher.penerbit_buku || "",
+        alamat_penerbit: publisher.alamat_penerbit || "",
+        telp_penerbit: publisher.telp_penerbit || "",
+        email_penerbit: publisher.email_penerbit || "",
+        deskripsi_penerbit:
+          publisher.deskripsi_penerbit || publisher.deskripsi || "",
       });
     }
-  }, [author, isCreateMode, reset]);
+  }, [publisher, isCreateMode, reset]);
 
   const handleCloseModal = () => {
     setModal(false, null);
@@ -68,12 +71,14 @@ const AuthorModal = () => {
     reset();
   };
 
-  const onSubmit = (data: AuthorFormData) => {
+  const onSubmit = (data: PublisherFormData) => {
+    const payload = { ...data, deskripsi: data.deskripsi_penerbit };
+
     if (isCreateMode) {
-      createMutation.mutate(data, { onSuccess: handleCloseModal });
+      createMutation.mutate(payload, { onSuccess: handleCloseModal });
     } else if (modalId) {
       updateMutation.mutate(
-        { id: modalId, data: { ...data, id: modalId } },
+        { id: modalId, data: { ...payload, id: modalId } },
         { onSuccess: handleCloseModal },
       );
     }
@@ -85,9 +90,9 @@ const AuthorModal = () => {
   };
 
   const getModalTitle = () => {
-    if (isCreateMode) return "Tambah Penulis Baru";
-    if (isEditing) return "Ubah Informasi Penulis";
-    return "Detail Informasi Penulis";
+    if (isCreateMode) return "Tambah Penerbit Baru";
+    if (isEditing) return "Ubah Informasi Penerbit";
+    return "Detail Informasi Penerbit";
   };
 
   const showFormLayout = isCreateMode || isEditing;
@@ -108,7 +113,8 @@ const AuthorModal = () => {
           Gagal mengambil data.
         </div>
       )}
-      {(isCreateMode || (!isLoading && !isError && author)) && (
+
+      {(isCreateMode || (!isLoading && !isError && publisher)) && (
         <div className="flex flex-col items-center justify-center text-center">
           {showFormLayout ? (
             <form
@@ -116,69 +122,84 @@ const AuthorModal = () => {
               className="w-full space-y-4 px-2"
             >
               <div className="flex flex-col text-left">
-                <label htmlFor="penulis_buku" className="label-input">
-                  Nama Penulis
+                <label htmlFor="penerbit_buku" className="label-input">
+                  Nama Penerbit
                 </label>
                 <input
-                  id="penulis_buku"
-                  placeholder="Masukkan nama penulis"
-                  {...register("penulis_buku")}
+                  id="penerbit_buku"
+                  placeholder="Masukkan nama perusahaan penerbit"
+                  {...register("penerbit_buku")}
                   className="btn-input"
                 />
-                {errors.penulis_buku && (
+                {errors.penerbit_buku && (
                   <p className="error-input-message text-center">
-                    {errors.penulis_buku.message}
+                    {errors.penerbit_buku.message}
                   </p>
                 )}
               </div>
-
               <div className="flex flex-col text-left">
-                <label htmlFor="email_penulis" className="label-input">
-                  Email Penulis
+                <label htmlFor="email_penerbit" className="label-input">
+                  Email Penerbit
                 </label>
                 <input
-                  id="email_penulis"
+                  id="email_penerbit"
                   type="email"
-                  placeholder="contoh@domain.com"
-                  {...register("email_penulis")}
+                  placeholder="publisher@domain.com"
+                  {...register("email_penerbit")}
                   className="btn-input"
                 />
-                {errors.email_penulis && (
+                {errors.email_penerbit && (
                   <p className="error-input-message text-center">
-                    {errors.email_penulis.message}
+                    {errors.email_penerbit.message}
                   </p>
                 )}
               </div>
               <div className="flex flex-col text-left">
-                <label htmlFor="alamat" className="label-input">
-                  Alamat Penulis
+                <label htmlFor="telp_penerbit" className="label-input">
+                  No Telepon
                 </label>
                 <input
-                  id="alamat"
-                  placeholder="Masukkan kota domisili"
-                  {...register("alamat_penulis")}
+                  id="telp_penerbit"
+                  placeholder="Contoh: 021XXXXXXXX"
+                  {...register("telp_penerbit")}
                   className="btn-input"
                 />
-                {errors.alamat_penulis && (
+                {errors.telp_penerbit && (
                   <p className="error-input-message text-center">
-                    {errors.alamat_penulis.message}
+                    {errors.telp_penerbit.message}
                   </p>
                 )}
               </div>
               <div className="flex flex-col text-left">
-                <label htmlFor="deskripsi" className="label-input">
-                  Deskripsi Penuli
+                <label htmlFor="alamat_penerbit" className="label-input">
+                  Alamat Kota
+                </label>
+                <input
+                  id="alamat_penerbit"
+                  placeholder="Masukkan kota asal penerbit"
+                  {...register("alamat_penerbit")}
+                  className="btn-input"
+                />
+                {errors.alamat_penerbit && (
+                  <p className="error-input-message text-center">
+                    {errors.alamat_penerbit.message}
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col text-left">
+                <label htmlFor="deskripsi_penerbit" className="label-input">
+                  Deskripsi
                 </label>
                 <textarea
-                  id="deskripsi"
+                  id="deskripsi_penerbit"
                   rows={4}
-                  placeholder="Masukkan deskripsi penjelas riwayat penulis..."
-                  {...register("deskripsi")}
+                  placeholder="Masukkan informasi deskripsi tambahan..."
+                  {...register("deskripsi_penerbit")}
                   className="btn-input resize-none"
                 />
-                {errors.deskripsi && (
+                {errors.deskripsi_penerbit && (
                   <p className="error-input-message text-center">
-                    {errors.deskripsi.message}
+                    {errors.deskripsi_penerbit.message}
                   </p>
                 )}
               </div>
@@ -209,31 +230,37 @@ const AuthorModal = () => {
             <div className="w-full space-y-5">
               <div className="detail-banner flex w-full flex-col items-center justify-center">
                 <div className="space-y-1">
-                  <span className="detail-label-xs">Nama Penulis</span>
-                  <h4 className="detail-title">{author.penulis_buku}</h4>
-                  <p className="detail-text-id">ID Penulis: {author.id}</p>
+                  <span className="detail-label-xs">Nama Penerbit</span>
+                  <h4 className="detail-title">{publisher.penerbit_buku}</h4>
+                  <p className="detail-text-id mt-4">
+                    ID Penerbit: {publisher.id}
+                  </p>
                 </div>
               </div>
-              <div className="grid w-full grid-cols-1 gap-4 text-center sm:grid-cols-2">
+              <div className="grid w-full grid-cols-1 gap-4 text-center sm:grid-cols-3">
                 <div>
-                  <span className="detail-label">Email Penulis</span>
-                  <p className="mt-0.5 inline-block rounded border border-gray-100 bg-gray-50 px-2 py-1 font-mono text-sm text-gray-900">
-                    {author.email_penulis || "-"}
+                  <span className="detail-label">Email</span>
+                  <p className="mt-0.5 inline-block max-w-full truncate rounded border border-gray-100 bg-gray-50 px-2 py-1 font-mono text-xs text-gray-900">
+                    {publisher.email_penerbit}
                   </p>
                 </div>
                 <div>
-                  <span className="detail-label">Kota Domisili</span>
+                  <span className="detail-label">No. Telepon</span>
+                  <p className="mt-0.5 font-mono text-sm font-medium text-gray-900">
+                    {publisher.telp_penerbit || "-"}
+                  </p>
+                </div>
+                <div>
+                  <span className="detail-label">Kota Asal</span>
                   <p className="mt-0.5 text-sm font-medium text-gray-900">
-                    {author.alamat_penulis || author.alamat || "-"}
+                    {publisher.alamat_penerbit}
                   </p>
                 </div>
               </div>
               <div className="detail-section flex w-full flex-col items-center justify-center">
-                <span className="detail-label">
-                  Biografi / Deskripsi Penulis
-                </span>
+                <span className="detail-label">Keterangan / Deskripsi</span>
                 <p className="detail-box-scrollable mx-auto w-full text-center">
-                  {author.deskripsi || "-"}
+                  {publisher.deskripsi_penerbit || "-"}
                 </p>
               </div>
               <div className="flex w-full flex-col gap-4 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
@@ -263,4 +290,4 @@ const AuthorModal = () => {
   );
 };
 
-export default AuthorModal;
+export default PublisherModal;
