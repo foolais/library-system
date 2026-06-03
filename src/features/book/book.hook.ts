@@ -3,7 +3,7 @@ import { getAllBooks, getBookById } from "./book.service";
 
 export const useBooks = () => {
   return useQuery({
-    queryKey: ["books"],
+    queryKey: ["all-books"],
     queryFn: () => getAllBooks(),
   });
 };

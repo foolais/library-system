@@ -1,30 +1,26 @@
+import { useAuthStore } from "../stores/auth.store";
 import { api } from "./axios";
+import { getAccessToken } from "./utils";
 
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("accessToken");
+api.interceptors.request.use((config) => {
+  const token = getAccessToken();
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
 
-    return config;
-  },
-
-  (error) => Promise.reject(error)
-);
+  return config;
+});
 
 api.interceptors.response.use(
   (response) => response,
-
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+      useAuthStore.getState().logout();
 
-      window.location.href = "/login";
+      window.location.href = "/auth";
     }
 
     return Promise.reject(error);
-  }
+  },
 );

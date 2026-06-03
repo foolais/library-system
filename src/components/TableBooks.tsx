@@ -26,7 +26,7 @@ const TableBooks = () => {
   const bookList = books?.data || [];
 
   const handleDetailClick = (id: string) => {
-    setModal(true, id);
+    setModal(true, id, "detail");
   };
 
   return (

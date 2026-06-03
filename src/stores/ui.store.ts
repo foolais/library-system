@@ -5,9 +5,14 @@ import type { BookTabs } from "../features/book/book.types";
 interface UIState {
   isModalOpen: boolean;
   modalId: string | null;
+  modalMode: "create" | "detail";
   bookTabs: BookTabs;
 
-  setModal: (isOpen: boolean, id: string | null) => void;
+  setModal: (
+    isOpen: boolean,
+    id: string | null,
+    mode?: "create" | "detail",
+  ) => void;
   setBookTabs: (tab: BookTabs) => void;
 }
 
@@ -16,9 +21,15 @@ export const useUIStore = create<UIState>()(
     (set) => ({
       isModalOpen: false,
       modalId: null,
+      modalMode: "detail",
       bookTabs: "all",
 
-      setModal: (isOpen, id) => set({ isModalOpen: isOpen, modalId: id }),
+      setModal: (isOpen, id, mode = "detail") =>
+        set({
+          isModalOpen: isOpen,
+          modalId: id,
+          modalMode: isOpen ? mode : "detail",
+        }),
       setBookTabs: (tab) => set({ bookTabs: tab }),
     }),
     {
