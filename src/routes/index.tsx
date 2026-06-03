@@ -1,14 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
 import AuthPage from "../page/Auth";
 import BookPage from "../page/Book";
+import { ProtectedRoute, PublicRoute } from "./RouteGuards";
 
 export const router = createBrowserRouter([
   {
-    path: "/auth",
-    element: <AuthPage />,
+    element: <PublicRoute />,
+    children: [{ path: "/auth", element: <AuthPage /> }],
   },
   {
-    path: "/book",
-    element: <BookPage />,
+    element: <ProtectedRoute />,
+    children: [{ path: "/book", element: <BookPage /> }],
   },
 ]);
