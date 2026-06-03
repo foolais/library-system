@@ -5,3 +5,12 @@ export const LinkData: ILink[] = [
   { name: "Loans", href: "/loans" },
   { name: "Fines", href: "/fines" },
 ];
+
+type ITabsBook = { name: string; value: string };
+
+export const TabsBookData: ITabsBook[] = [
+  { name: "ALL BOOKS", value: "all" },
+  { name: "CATEGORIES", value: "category" },
+  { name: "AUTHORS", value: "author" },
+  { name: "PUBLISHERS", value: "publisher" },
+];
