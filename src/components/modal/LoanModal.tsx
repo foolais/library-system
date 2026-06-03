@@ -150,7 +150,7 @@ const LoanModal = () => {
             >
               <div className="flex flex-col text-left">
                 <label htmlFor="id_anggota" className="label-input">
-                  ID ANGGOTA
+                  Id Anggota
                 </label>
                 <input
                   id="id_anggota"
@@ -168,7 +168,7 @@ const LoanModal = () => {
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="flex flex-col text-left">
                   <label htmlFor="tgl_pinjam" className="label-input">
-                    TANGGAL PINJAM
+                    Tanggal Pinjam
                   </label>
                   <input
                     id="tgl_pinjam"
@@ -184,7 +184,7 @@ const LoanModal = () => {
                 </div>
                 <div className="flex flex-col text-left">
                   <label htmlFor="tgl_hrs_kembali" className="label-input">
-                    BATAS KEMBALI
+                    Tanggal Harus Kembali
                   </label>
                   <input
                     id="tgl_hrs_kembali"
@@ -201,7 +201,7 @@ const LoanModal = () => {
               </div>
               <div className="flex flex-col text-left">
                 <label htmlFor="jaminan" className="label-input">
-                  DOKUMEN JAMINAN
+                  Dokumen Jaminan
                 </label>
                 <input
                   id="jaminan"

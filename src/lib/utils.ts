@@ -23,3 +23,19 @@ export const resetTabs = () => {
   const setBookTabs = useUIStore.getState().setBookTabs;
   setBookTabs("all");
 };
+
+export const formatCurrency = (value: number) => {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0,
+  }).format(value);
+};
+
+export const formatDate = (dateStr: string) => {
+  if (!dateStr) return "-";
+  return new Date(dateStr).toLocaleDateString("id-ID", {
+    month: "short",
+    day: "2-digit",
+  });
+};
