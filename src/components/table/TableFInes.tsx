@@ -87,13 +87,13 @@ const TableFines = () => {
                 <td className="table-td text-right font-semibold text-red-600">
                   {formatCurrency(+fine.jumlah_denda)}
                 </td>
-                <td className="table-td-muted hidden text-left sm:table-cell">
+                <td className="table-td-muted hidden text-center sm:table-cell">
                   {formatDate(fine.tgl_pinjam)}
                 </td>
-                <td className="table-td-muted hidden text-left md:table-cell">
+                <td className="table-td-muted hidden text-center md:table-cell">
                   {formatDate(fine.tgl_hrs_kembali)}
                 </td>
-                <td className="table-td-muted hidden text-left text-green-600 md:table-cell">
+                <td className="table-td-muted hidden text-center text-green-600 md:table-cell">
                   {formatDate(fine.tgl_kembali)}
                 </td>
                 <td className="table-td text-center">

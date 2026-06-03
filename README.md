@@ -1,73 +1,106 @@
-# React + TypeScript + Vite
+# Implementasi Frontend Library Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Pendekatan Implementasi
 
-Currently, two official plugins are available:
+Website dikembangkan menggunakan pendekatan **Feature-Based Architecture (Modular Architecture)**, di mana setiap domain bisnis dipisahkan ke dalam feature masing-masing seperti **Authentication**, **Books**, **Categories**, **Authors**, **Publisher**, **Loans**, dan **Fines**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Navigasi utama aplikasi terdiri dari halaman **Books**, **Loans**, dan **Fines** yang dapat diakses melalui navbar. Pada modul Books, terdapat tab navigasi untuk mengelola **All Books**, **Categories**, **Authors**, dan **Publishers** dalam satu halaman sehingga memudahkan pengguna berpindah antar data master tanpa perlu berpindah route.
 
-## React Compiler
+Setiap feature memiliki struktur yang konsisten yang mencakup:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Service Layer (Axios API)
+- TanStack Query Hooks
+- Validation Schema (Zod)
+- Type Definitions
 
-## Expanding the ESLint configuration
+State autentikasi dikelola menggunakan Zustand, termasuk penyimpanan token JWT dan fitur **logout** yang tersedia pada bagian kanan atas aplikasi. Komponen yang dapat digunakan kembali seperti tabel, modal, header, dan search bar ditempatkan pada folder shared components untuk meningkatkan reusability dan maintainability kode.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Struktur Halaman
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Authentication
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- `/auth/login`
+  - Halaman login menggunakan JWT Authentication.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Books
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- `/books`
+  - **All Books**: daftar dan detail buku.
+  - **Categories**: CRUD kategori buku dan pencarian data.
+  - **Authors**: CRUD penulis buku dan pencarian data.
+  - **Publishers**: CRUD penerbit buku dan pencarian data.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Loans
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- `/loans`
+  - Daftar, detail, tambah, ubah, dan hapus data peminjaman.
+
+### Fines
+
+- `/fines`
+  - Daftar, detail, tambah, ubah, dan hapus data denda.
+
+### Authentication
+
+- `/auth/login`
+  - Login menggunakan JWT Authentication.
+  - Logout dan proteksi halaman menggunakan token JWT.
+
+## Teknologi yang Digunakan
+
+- React
+- TypeScript
+- Vite
+- React Router DOM
+- Axios
+- TanStack Query
+- Zustand
+- React Hook Form
+- Zod
+- Tailwind CSS
+
+## Screenshot / Demo
+
+## Screenshots
+
+### Authentication
+
+#### Login Page
+
+![Login Page](./screenshots/auth-login.png)
+
+---
+
+### Books
+
+#### All Books
+
+![All Books](./screenshots/books-all.png)
+
+#### Categories
+
+![Categories](./screenshots/books-categories.png)
+
+#### Authors
+
+![Authors](./screenshots/books-authors.png)
+
+#### Publishers
+
+![Publishers](./screenshots/books-publishers.png)
+
+---
+
+### Loans
+
+#### Loans Management
+
+![Loans](./screenshots/loans.png)
+
+---
+
+### Fines
+
+#### Fines Management
+
+![Fines](./screenshots/fines.png)
