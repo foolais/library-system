@@ -1,17 +1,20 @@
 import { Info } from "lucide-react";
 import { useUIStore } from "../stores/ui.store";
-import { useCategoryBooks } from "../features/category/category.hook";
-import CategoryModal from "./CategoryModal";
-import type { CategoryBook } from "../features/category/category.type";
+import { useAuthorBooks } from "../features/author/author.hook";
+import type {
+  AuthorBook,
+  AuthorBookWithAlamat,
+} from "../features/author/author.types";
+import AuthorModal from "./AuthorModal";
 
-const TableCategory = () => {
-  const { data: categoriesResponse, isLoading, isError } = useCategoryBooks();
+const TableAuthors = () => {
+  const { data: authorsResponse, isLoading, isError } = useAuthorBooks();
   const setModal = useUIStore((state) => state.setModal);
 
   if (isLoading) {
     return (
       <div className="p-6 text-center font-medium text-gray-500">
-        Loading categories...
+        Loading authors...
       </div>
     );
   }
@@ -23,7 +26,13 @@ const TableCategory = () => {
     );
   }
 
-  const categoryList = categoriesResponse?.data || categoriesResponse || [];
+  const authorList = authorsResponse?.data || authorsResponse || [];
+  const mappedAuthors = authorList.map((author: AuthorBookWithAlamat) => {
+    return {
+      ...author,
+      alamat_penulis: author.alamat,
+    };
+  });
 
   const handleDetailClick = (id: string) => {
     setModal(true, id, "detail");
@@ -37,21 +46,33 @@ const TableCategory = () => {
             <tr>
               <th
                 scope="col"
-                className="table-th w-[15%] text-center sm:w-[10%] md:w-[8%]"
+                className="table-th w-[12%] text-center sm:w-[8%] md:w-[5%]"
               >
                 No
               </th>
               <th
                 scope="col"
-                className="table-th w-[65%] sm:w-[50%] md:w-[32%]"
+                className="table-th w-[68%] text-left sm:w-[47%] md:w-[25%]"
               >
-                Jenis Buku
+                Nama Penulis
               </th>
               <th
                 scope="col"
-                className="table-th hidden sm:table-cell sm:w-[30%] md:w-[50%]"
+                className="table-th hidden sm:table-cell sm:w-[35%] md:w-[20%]"
               >
-                Deskripsi Kategori
+                Email
+              </th>
+              <th
+                scope="col"
+                className="table-th hidden md:table-cell md:w-[15%]"
+              >
+                Alamat
+              </th>
+              <th
+                scope="col"
+                className="table-th hidden md:table-cell md:w-[25%]"
+              >
+                Deskripsi
               </th>
               <th
                 scope="col"
@@ -62,26 +83,32 @@ const TableCategory = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
-            {categoryList.map((category: CategoryBook, index: number) => (
+            {mappedAuthors.map((author: AuthorBook, index: number) => (
               <tr
-                key={category.id}
+                key={author.id}
                 className="transition-colors hover:bg-gray-50"
               >
                 <td className="table-td text-center font-mono text-gray-400">
                   {index + 1}
                 </td>
                 <td className="table-td text-left font-medium text-gray-900">
-                  {category.jenis_buku}
+                  {author.penulis_buku}
                 </td>
                 <td className="table-td-muted hidden text-left sm:table-cell">
-                  {category.deskripsi || "-"}
+                  {author.email_penulis}
+                </td>
+                <td className="table-td-muted hidden text-left md:table-cell">
+                  {author.alamat_penulis || "-"}
+                </td>
+                <td className="table-td-muted hidden max-w-xs truncate text-left md:table-cell">
+                  {author.deskripsi || "-"}
                 </td>
                 <td className="table-td text-center">
                   <button
                     type="button"
-                    onClick={() => handleDetailClick(category.id)}
+                    onClick={() => handleDetailClick(author.id)}
                     className="bg-primary hover:bg-primary/90 mx-auto flex size-6 cursor-pointer items-center justify-center rounded-full text-white transition-all duration-300 hover:scale-105"
-                    title="Lihat Detail Kategori"
+                    title="Lihat Detail Penulis"
                   >
                     <Info className="size-4" />
                   </button>
@@ -91,15 +118,15 @@ const TableCategory = () => {
           </tbody>
         </table>
 
-        {categoryList.length === 0 && (
+        {authorList.length === 0 && (
           <div className="p-8 text-center text-gray-400">
-            No categories found in database.
+            Belum ada data penulis di dalam database.
           </div>
         )}
       </div>
-      <CategoryModal />
+      <AuthorModal />
     </div>
   );
 };
 
-export default TableCategory;
+export default TableAuthors;

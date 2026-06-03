@@ -1,6 +1,8 @@
+import AuthorModal from "../components/AuthorModal";
 import ButtonAddModal from "../components/ButtonAddModal";
 import CategoryModal from "../components/CategoryModal";
 import Header from "../components/Header";
+import TableAuthors from "../components/TableAuthor";
 import TableBooks from "../components/TableBooks";
 import TableCategory from "../components/TableCategory";
 import TabsBook from "../components/TabsBook";
@@ -17,13 +19,18 @@ const BooksPage = () => {
           <TabsBook />
           {activeTab === "category" && (
             <ButtonAddModal>
-              <CategoryModal mode="create" />
+              <CategoryModal />
+            </ButtonAddModal>
+          )}
+          {activeTab === "author" && (
+            <ButtonAddModal>
+              <AuthorModal />
             </ButtonAddModal>
           )}
         </div>
         {activeTab === "all" && <TableBooks />}
         {activeTab === "category" && <TableCategory />}
-        {activeTab === "author" && <div>borrowed</div>}
+        {activeTab === "author" && <TableAuthors />}
         {activeTab === "publisher" && <div>borrowed</div>}
       </div>
     </>
