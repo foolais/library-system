@@ -3,6 +3,7 @@ import { login } from "./auth.service";
 import { useAuthStore } from "../../stores/auth.store";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useUIStore } from "../../stores/ui.store";
 
 export const useLogin = () => {
   const navigate = useNavigate();
@@ -36,10 +37,13 @@ export const useLogin = () => {
 
 export const useLogout = () => {
   const logoutStore = useAuthStore((state) => state.logout);
+  const setBookTabs = useUIStore((state) => state.setBookTabs);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logoutStore();
+    setBookTabs("all");
+
     toast.success("Logged out successfully!");
     navigate("/auth");
   };
