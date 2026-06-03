@@ -10,10 +10,10 @@ import { useUIStore } from "../../stores/ui.store";
 import toast from "react-hot-toast";
 import type { CategoryBook } from "./category.type";
 
-export const useCategoryBooks = () => {
+export const useCategoryBooks = (search?: string) => {
   return useQuery({
-    queryKey: ["all-category-books"],
-    queryFn: () => getAllCategoriesBooks(),
+    queryKey: ["all-category-books", search],
+    queryFn: () => getAllCategoriesBooks(search),
   });
 };
 

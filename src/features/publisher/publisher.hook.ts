@@ -10,10 +10,10 @@ import { useUIStore } from "../../stores/ui.store";
 import toast from "react-hot-toast";
 import type { PublisherBook } from "./publisher.type";
 
-export const usePublisherBooks = () => {
+export const usePublisherBooks = (search?: string) => {
   return useQuery({
-    queryKey: ["all-publisher-books"],
-    queryFn: () => getAllPublisherBook(),
+    queryKey: ["all-publisher-books", search],
+    queryFn: () => getAllPublisherBook(search),
   });
 };
 

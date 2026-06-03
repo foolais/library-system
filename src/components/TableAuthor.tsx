@@ -8,8 +8,14 @@ import type {
 import AuthorModal from "./AuthorModal";
 
 const TableAuthors = () => {
-  const { data: authorsResponse, isLoading, isError } = useAuthorBooks();
+  const searchQuery = useUIStore((state) => state.searchQuery);
   const setModal = useUIStore((state) => state.setModal);
+
+  const {
+    data: authorsResponse,
+    isLoading,
+    isError,
+  } = useAuthorBooks(searchQuery);
 
   if (isLoading) {
     return (
@@ -26,7 +32,7 @@ const TableAuthors = () => {
     );
   }
 
-  const authorList = authorsResponse?.data || authorsResponse || [];
+  const authorList = authorsResponse?.data || [];
   const mappedAuthors = authorList.map((author: AuthorBookWithAlamat) => {
     return {
       ...author,

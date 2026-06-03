@@ -1,8 +1,10 @@
 import { api } from "../../lib/axios";
 import type { PayloadPublisherBook } from "./publisher.type";
 
-export const getAllPublisherBook = async () => {
-  const response = await api.get("/admin/buku/penbuk");
+export const getAllPublisherBook = async (search?: string) => {
+  const response = await api.get("/admin/buku/penbuk", {
+    params: search ? { q: search } : {},
+  });
 
   return response.data;
 };

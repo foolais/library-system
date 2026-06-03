@@ -7,6 +7,7 @@ interface UIState {
   modalId: string | null;
   modalMode: "create" | "detail";
   bookTabs: BookTabs;
+  searchQuery: string;
 
   setModal: (
     isOpen: boolean,
@@ -14,6 +15,7 @@ interface UIState {
     mode?: "create" | "detail",
   ) => void;
   setBookTabs: (tab: BookTabs) => void;
+  setSearchQuery: (query: string) => void;
 }
 
 export const useUIStore = create<UIState>()(
@@ -23,6 +25,7 @@ export const useUIStore = create<UIState>()(
       modalId: null,
       modalMode: "detail",
       bookTabs: "all",
+      searchQuery: "",
 
       setModal: (isOpen, id, mode = "detail") =>
         set({
@@ -31,6 +34,7 @@ export const useUIStore = create<UIState>()(
           modalMode: isOpen ? mode : "detail",
         }),
       setBookTabs: (tab) => set({ bookTabs: tab }),
+      setSearchQuery: (query) => set({ searchQuery: query }),
     }),
     {
       name: "lib-ui-storage",

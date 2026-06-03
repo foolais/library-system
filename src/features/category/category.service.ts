@@ -1,8 +1,10 @@
 import { api } from "../../lib/axios";
 import type { CategoryBook, PayloadCategoryBook } from "./category.type";
 
-export const getAllCategoriesBooks = async () => {
-  const response = await api.get("/admin/buku/jenbuk");
+export const getAllCategoriesBooks = async (search?: string) => {
+  const response = await api.get("/admin/buku/jenbuk", {
+    params: search ? { q: search } : {},
+  });
 
   return response.data;
 };

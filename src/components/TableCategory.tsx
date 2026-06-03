@@ -5,8 +5,14 @@ import CategoryModal from "./CategoryModal";
 import type { CategoryBook } from "../features/category/category.type";
 
 const TableCategory = () => {
-  const { data: categoriesResponse, isLoading, isError } = useCategoryBooks();
+  const searchQuery = useUIStore((state) => state.searchQuery);
   const setModal = useUIStore((state) => state.setModal);
+
+  const {
+    data: categoriesResponse,
+    isLoading,
+    isError,
+  } = useCategoryBooks(searchQuery);
 
   if (isLoading) {
     return (
@@ -23,7 +29,7 @@ const TableCategory = () => {
     );
   }
 
-  const categoryList = categoriesResponse?.data || categoriesResponse || [];
+  const categoryList = categoriesResponse?.data || [];
 
   const handleDetailClick = (id: string) => {
     setModal(true, id, "detail");

@@ -5,9 +5,14 @@ import type { PublisherBook } from "../features/publisher/publisher.type";
 import PublisherModal from "./modal/PublisherModal";
 
 const TablePublishers = () => {
-  const { data: publishersResponse, isLoading, isError } = usePublisherBooks();
-
+  const searchQuery = useUIStore((state) => state.searchQuery);
   const setModal = useUIStore((state) => state.setModal);
+
+  const {
+    data: publishersResponse,
+    isLoading,
+    isError,
+  } = usePublisherBooks(searchQuery);
 
   if (isLoading) {
     return (
@@ -24,7 +29,7 @@ const TablePublishers = () => {
     );
   }
 
-  const publisherList = publishersResponse?.data || publishersResponse || [];
+  const publisherList = publishersResponse?.data || [];
 
   const handleDetailClick = (id: string) => {
     setModal(true, id, "detail");

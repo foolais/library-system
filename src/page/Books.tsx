@@ -3,6 +3,7 @@ import ButtonAddModal from "../components/ButtonAddModal";
 import CategoryModal from "../components/CategoryModal";
 import Header from "../components/Header";
 import PublisherModal from "../components/modal/PublisherModal";
+import SearchBar from "../components/SearchBar";
 import TableAuthors from "../components/TableAuthor";
 import TableBooks from "../components/TableBooks";
 import TableCategory from "../components/TableCategory";
@@ -35,6 +36,7 @@ const BooksPage = () => {
             </ButtonAddModal>
           )}
         </div>
+        <SearchBar key={activeTab} />
         {activeTab === "all" && <TableBooks />}
         {activeTab === "category" && <TableCategory />}
         {activeTab === "author" && <TableAuthors />}
