@@ -1,13 +1,13 @@
-import AuthorModal from "../components/AuthorModal";
-import ButtonAddModal from "../components/ButtonAddModal";
-import CategoryModal from "../components/CategoryModal";
+import AuthorModal from "../components/modal/AuthorModal";
+import ButtonAddModal from "../components/modal/ButtonAddModal";
+import CategoryModal from "../components/modal/CategoryModal";
 import Header from "../components/Header";
 import PublisherModal from "../components/modal/PublisherModal";
 import SearchBar from "../components/SearchBar";
-import TableAuthors from "../components/TableAuthor";
-import TableBooks from "../components/TableBooks";
-import TableCategory from "../components/TableCategory";
-import TablePublishers from "../components/TablePublisher";
+import TableAuthors from "../components/table/TableAuthor";
+import TableBooks from "../components/table/TableBooks";
+import TableCategory from "../components/table/TableCategory";
+import TablePublishers from "../components/table/TablePublisher";
 import TabsBook from "../components/TabsBook";
 import { useUIStore } from "../stores/ui.store";
 

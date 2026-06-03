@@ -1,6 +1,6 @@
 import React from "react";
 import { Plus } from "lucide-react";
-import { useUIStore } from "../stores/ui.store";
+import { useUIStore } from "../../stores/ui.store";
 
 interface ButtonAddModalProps {
   label?: string;

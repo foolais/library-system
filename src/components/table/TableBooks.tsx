@@ -1,8 +1,8 @@
 import { Info } from "lucide-react";
-import { useBooks } from "../features/book/book.hook";
-import type { Book } from "../features/book/book.types";
-import { useUIStore } from "../stores/ui.store";
-import BookDetailModal from "./BookDetailModal";
+import { useBooks } from "../../features/book/book.hook";
+import type { Book } from "../../features/book/book.types";
+import { useUIStore } from "../../stores/ui.store";
+import BookDetailModal from "../modal/BookDetailModal";
 
 const TableBooks = () => {
   const { data: books, isLoading, isError } = useBooks();

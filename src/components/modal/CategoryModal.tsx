@@ -1,21 +1,21 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUIStore } from "../stores/ui.store";
+import { useUIStore } from "../../stores/ui.store";
 import {
-  useAuthorBook,
-  useCreateAuthorBook,
-  useUpdateAuthorBook,
-  useDeleteAuthorBook,
-} from "../features/author/author.hook";
+  useCategoryBook,
+  useCreateCategoryBook,
+  useUpdateCategoryBook,
+  useDeleteCategoryBook,
+} from "../../features/category/category.hook";
 import {
-  authorBookSchema,
-  type AuthorFormData,
-} from "../features/author/author.schema";
-import Modal from "./Modal";
+  categoryBookSchema,
+  type CategoryFormData,
+} from "../../features/category/category.schema";
+import Modal from "../Modal";
 import { Edit, Trash } from "lucide-react";
 
-const AuthorModal = () => {
+const CategoryModal = () => {
   const isModalOpen = useUIStore((state) => state.isModalOpen);
   const modalId = useUIStore((state) => state.modalId);
   const modalMode = useUIStore((state) => state.modalMode);
@@ -25,42 +25,35 @@ const AuthorModal = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   const {
-    data: authorResponse,
+    data: categoryResponse,
     isLoading,
     isError,
-  } = useAuthorBook(!isCreateMode && modalId ? modalId : "");
-  const author = authorResponse?.data || authorResponse;
+  } = useCategoryBook(!isCreateMode && modalId ? modalId : "");
+  const category = categoryResponse?.data || categoryResponse;
 
-  const createMutation = useCreateAuthorBook();
-  const updateMutation = useUpdateAuthorBook();
-  const deleteMutation = useDeleteAuthorBook();
+  const createMutation = useCreateCategoryBook();
+  const updateMutation = useUpdateCategoryBook();
+  const deleteMutation = useDeleteCategoryBook();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<AuthorFormData>({
-    resolver: zodResolver(authorBookSchema),
+  } = useForm<CategoryFormData>({
+    resolver: zodResolver(categoryBookSchema),
   });
 
   useEffect(() => {
     if (isCreateMode) {
+      reset({ jenis_buku: "", deskripsi: "" });
+    } else if (category) {
       reset({
-        penulis_buku: "",
-        alamat_penulis: "",
-        email_penulis: "",
-        deskripsi: "",
-      });
-    } else if (author) {
-      reset({
-        penulis_buku: author.penulis_buku || "",
-        alamat_penulis: author.alamat_penulis || author.alamat || "",
-        email_penulis: author.email_penulis || "",
-        deskripsi: author.deskripsi || "",
+        jenis_buku: category.jenis_buku || "",
+        deskripsi: category.deskripsi || "",
       });
     }
-  }, [author, isCreateMode, reset]);
+  }, [category, isCreateMode, reset]);
 
   const handleCloseModal = () => {
     setModal(false, null);
@@ -68,7 +61,7 @@ const AuthorModal = () => {
     reset();
   };
 
-  const onSubmit = (data: AuthorFormData) => {
+  const onSubmit = (data: CategoryFormData) => {
     if (isCreateMode) {
       createMutation.mutate(data, { onSuccess: handleCloseModal });
     } else if (modalId) {
@@ -85,9 +78,9 @@ const AuthorModal = () => {
   };
 
   const getModalTitle = () => {
-    if (isCreateMode) return "Tambah Penulis Baru";
-    if (isEditing) return "Ubah Informasi Penulis";
-    return "Detail Informasi Penulis";
+    if (isCreateMode) return "Tambah jenis buku Baru";
+    if (isEditing) return "Ubah jenis buku Buku";
+    return "Detail jenis buku Buku";
   };
 
   const showFormLayout = isCreateMode || isEditing;
@@ -108,7 +101,7 @@ const AuthorModal = () => {
           Gagal mengambil data.
         </div>
       )}
-      {(isCreateMode || (!isLoading && !isError && author)) && (
+      {(isCreateMode || (!isLoading && !isError && category)) && (
         <div className="flex flex-col items-center justify-center text-center">
           {showFormLayout ? (
             <form
@@ -116,63 +109,29 @@ const AuthorModal = () => {
               className="w-full space-y-4 px-2"
             >
               <div className="flex flex-col text-left">
-                <label htmlFor="penulis_buku" className="label-input">
-                  Nama Penulis
+                <label htmlFor="jenis_buku" className="label-input">
+                  Jenis BUKU
                 </label>
                 <input
-                  id="penulis_buku"
-                  placeholder="Masukkan nama penulis"
-                  {...register("penulis_buku")}
+                  id="jenis_buku"
+                  placeholder="Masukkan jenis buku"
+                  {...register("jenis_buku")}
                   className="btn-input"
                 />
-                {errors.penulis_buku && (
+                {errors.jenis_buku && (
                   <p className="error-input-message text-center">
-                    {errors.penulis_buku.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="flex flex-col text-left">
-                <label htmlFor="email_penulis" className="label-input">
-                  Email Penulis
-                </label>
-                <input
-                  id="email_penulis"
-                  type="email"
-                  placeholder="contoh@domain.com"
-                  {...register("email_penulis")}
-                  className="btn-input"
-                />
-                {errors.email_penulis && (
-                  <p className="error-input-message text-center">
-                    {errors.email_penulis.message}
-                  </p>
-                )}
-              </div>
-              <div className="flex flex-col text-left">
-                <label htmlFor="alamat" className="label-input">
-                  Alamat Penulis
-                </label>
-                <input
-                  id="alamat"
-                  placeholder="Masukkan kota domisili"
-                  {...register("alamat_penulis")}
-                  className="btn-input"
-                />
-                {errors.alamat_penulis && (
-                  <p className="error-input-message text-center">
-                    {errors.alamat_penulis.message}
+                    {errors.jenis_buku.message}
                   </p>
                 )}
               </div>
               <div className="flex flex-col text-left">
                 <label htmlFor="deskripsi" className="label-input">
-                  Deskripsi Penuli
+                  Deskripsi jenis buku
                 </label>
                 <textarea
                   id="deskripsi"
                   rows={4}
-                  placeholder="Masukkan deskripsi penjelas riwayat penulis..."
+                  placeholder="Masukkan deskripsi penjelasan jenis buku..."
                   {...register("deskripsi")}
                   className="btn-input resize-none"
                 />
@@ -209,33 +168,22 @@ const AuthorModal = () => {
             <div className="w-full space-y-5">
               <div className="detail-banner flex w-full flex-col items-center justify-center">
                 <div className="space-y-1">
-                  <span className="detail-label-xs">Nama Penulis</span>
-                  <h4 className="detail-title">{author.penulis_buku}</h4>
-                  <p className="detail-text-id">ID Penulis: {author.id}</p>
+                  <span className="detail-label-xs">Jenis Buku</span>
+                  <h4 className="detail-title">{category.jenis_buku}</h4>
+                  <p className="detail-text-id">ID jenis buku: {category.id}</p>
                 </div>
               </div>
-              <div className="grid w-full grid-cols-1 gap-4 text-center sm:grid-cols-2">
-                <div>
-                  <span className="detail-label">Email Penulis</span>
-                  <p className="mt-0.5 inline-block rounded border border-gray-100 bg-gray-50 px-2 py-1 font-mono text-sm text-gray-900">
-                    {author.email_penulis || "-"}
-                  </p>
-                </div>
-                <div>
-                  <span className="detail-label">Kota Domisili</span>
-                  <p className="mt-0.5 text-sm font-medium text-gray-900">
-                    {author.alamat_penulis || author.alamat || "-"}
-                  </p>
-                </div>
-              </div>
+
               <div className="detail-section flex w-full flex-col items-center justify-center">
                 <span className="detail-label">
-                  Biografi / Deskripsi Penulis
+                  Deskripsi Lengkap jenis buku
                 </span>
                 <p className="detail-box-scrollable mx-auto w-full text-center">
-                  {author.deskripsi || "-"}
+                  {category.deskripsi ||
+                    "Tidak ada deskripsi deskriptif penunjang untuk jenis buku ini."}
                 </p>
               </div>
+
               <div className="flex w-full flex-col gap-4 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
                 <button
                   type="button"
@@ -263,4 +211,4 @@ const AuthorModal = () => {
   );
 };
 
-export default AuthorModal;
+export default CategoryModal;

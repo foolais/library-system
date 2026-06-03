@@ -1,23 +1,23 @@
 import { Info } from "lucide-react";
-import { useUIStore } from "../stores/ui.store";
-import { usePublisherBooks } from "../features/publisher/publisher.hook";
-import type { PublisherBook } from "../features/publisher/publisher.type";
-import PublisherModal from "./modal/PublisherModal";
+import { useUIStore } from "../../stores/ui.store";
+import { useCategoryBooks } from "../../features/category/category.hook";
+import CategoryModal from "../modal/CategoryModal";
+import type { CategoryBook } from "../../features/category/category.type";
 
-const TablePublishers = () => {
+const TableCategory = () => {
   const searchQuery = useUIStore((state) => state.searchQuery);
   const setModal = useUIStore((state) => state.setModal);
 
   const {
-    data: publishersResponse,
+    data: categoriesResponse,
     isLoading,
     isError,
-  } = usePublisherBooks(searchQuery);
+  } = useCategoryBooks(searchQuery);
 
   if (isLoading) {
     return (
       <div className="p-6 text-center font-medium text-gray-500">
-        Loading publishers...
+        Loading categories...
       </div>
     );
   }
@@ -29,7 +29,7 @@ const TablePublishers = () => {
     );
   }
 
-  const publisherList = publishersResponse?.data || [];
+  const categoryList = categoriesResponse?.data || [];
 
   const handleDetailClick = (id: string) => {
     setModal(true, id, "detail");
@@ -43,33 +43,21 @@ const TablePublishers = () => {
             <tr>
               <th
                 scope="col"
-                className="table-th w-[12%] text-center sm:w-[8%] md:w-[5%]"
+                className="table-th w-[15%] text-center sm:w-[10%] md:w-[8%]"
               >
                 No
               </th>
               <th
                 scope="col"
-                className="table-th w-[68%] text-left sm:w-[47%] md:w-[30%]"
+                className="table-th w-[65%] text-left sm:w-[50%] md:w-[32%]"
               >
-                Nama Penerbit
+                Jenis Buku
               </th>
               <th
                 scope="col"
-                className="table-th hidden sm:table-cell sm:w-[35%] md:w-[25%]"
+                className="table-th hidden sm:table-cell sm:w-[30%] md:w-[50%]"
               >
-                Email
-              </th>
-              <th
-                scope="col"
-                className="table-th hidden md:table-cell md:w-[15%]"
-              >
-                No. Telepon
-              </th>
-              <th
-                scope="col"
-                className="table-th hidden md:table-cell md:w-[15%]"
-              >
-                Kota Alamat
+                Deskripsi Kategori
               </th>
               <th
                 scope="col"
@@ -80,32 +68,26 @@ const TablePublishers = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
-            {publisherList.map((publisher: PublisherBook, index: number) => (
+            {categoryList.map((category: CategoryBook, index: number) => (
               <tr
-                key={publisher.id}
+                key={category.id}
                 className="transition-colors hover:bg-gray-50"
               >
                 <td className="table-td text-center font-mono text-gray-400">
                   {index + 1}
                 </td>
                 <td className="table-td text-left font-medium text-gray-900">
-                  {publisher.penerbit_buku}
+                  {category.jenis_buku}
                 </td>
                 <td className="table-td-muted hidden text-left sm:table-cell">
-                  {publisher.email_penerbit}
-                </td>
-                <td className="table-td-muted hidden text-left font-mono text-xs md:table-cell">
-                  {publisher.telp_penerbit || "-"}
-                </td>
-                <td className="table-td-muted hidden text-left md:table-cell">
-                  {publisher.alamat_penerbit}
+                  {category.deskripsi || "-"}
                 </td>
                 <td className="table-td text-center">
                   <button
                     type="button"
-                    onClick={() => handleDetailClick(publisher.id)}
+                    onClick={() => handleDetailClick(category.id)}
                     className="bg-primary hover:bg-primary/90 mx-auto flex size-6 cursor-pointer items-center justify-center rounded-full text-white transition-all duration-300 hover:scale-105"
-                    title="Lihat Detail Penerbit"
+                    title="Lihat Detail Kategori"
                   >
                     <Info className="size-4" />
                   </button>
@@ -115,15 +97,15 @@ const TablePublishers = () => {
           </tbody>
         </table>
 
-        {publisherList.length === 0 && (
+        {categoryList.length === 0 && (
           <div className="p-8 text-center text-gray-400">
-            Belum ada data penerbit di dalam database.
+            No categories found in database.
           </div>
         )}
       </div>
-      <PublisherModal />
+      <CategoryModal />
     </div>
   );
 };
 
-export default TablePublishers;
+export default TableCategory;

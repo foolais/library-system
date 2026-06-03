@@ -1,6 +1,6 @@
-import { useUIStore } from "../stores/ui.store";
-import { useBook } from "../features/book/book.hook";
-import Modal from "./Modal";
+import { useUIStore } from "../../stores/ui.store";
+import { useBook } from "../../features/book/book.hook";
+import Modal from "../Modal";
 import { BookOpenText } from "lucide-react";
 
 const BookDetailModal = () => {

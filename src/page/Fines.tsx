@@ -1,4 +1,4 @@
-import ButtonAddModal from "../components/ButtonAddModal";
+import ButtonAddModal from "../components/modal/ButtonAddModal";
 import Header from "../components/Header";
 import FineModal from "../components/modal/FineModal";
 import TableFines from "../components/table/TableFInes";

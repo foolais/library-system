@@ -1,4 +1,4 @@
-import ButtonAddModal from "../components/ButtonAddModal";
+import ButtonAddModal from "../components/modal/ButtonAddModal";
 import Header from "../components/Header";
 import LoanModal from "../components/modal/LoanModal";
 import TableLoan from "../components/table/TableLoan";
