@@ -39,7 +39,6 @@ export const useCreateAuthorBook = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError(error: any) {
       const serverErrorMessage = error?.response?.data?.msg;
-      console.log(error?.response?.data?.msg);
 
       if (error?.response?.status === 401) {
         toast.error(
@@ -73,7 +72,6 @@ export const useUpdateAuthorBook = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError(error: any) {
       const serverErrorMessage = error?.response?.data?.msg;
-      console.log(error?.response?.data?.msg);
 
       if (error?.response?.status === 401) {
         toast.error(
@@ -103,7 +101,6 @@ export const useDeleteAuthorBook = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError(error: any) {
       const serverErrorMessage = error?.response?.data?.msg;
-      console.log(error?.response?.data?.msg);
 
       if (error?.response?.status === 401) {
         toast.error(

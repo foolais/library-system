@@ -39,7 +39,6 @@ export const useCreateCategoryBook = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError(error: any) {
       const serverErrorMessage = error?.response?.data?.msg;
-      console.log(error?.response?.data?.msg);
 
       if (error?.response?.status === 401) {
         toast.error(
@@ -71,7 +70,6 @@ export const useUpdateCategoryBook = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError(error: any) {
       const serverErrorMessage = error?.response?.data?.msg;
-      console.log(error?.response?.data?.msg);
 
       if (error?.response?.status === 401) {
         toast.error(
@@ -101,7 +99,6 @@ export const useDeleteCategoryBook = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError(error: any) {
       const serverErrorMessage = error?.response?.data?.msg;
-      console.log(error?.response?.data?.msg);
 
       if (error?.response?.status === 401) {
         toast.error(
