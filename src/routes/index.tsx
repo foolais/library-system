@@ -1,7 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import AuthPage from "../page/Auth";
-import BookPage from "../page/Book";
 import { ProtectedRoute, PublicRoute } from "./RouteGuards";
+import BooksPage from "../page/Books";
+import LoansPage from "../page/Loans";
+import FinesPage from "../page/Fines";
 
 export const router = createBrowserRouter([
   {
@@ -10,6 +12,10 @@ export const router = createBrowserRouter([
   },
   {
     element: <ProtectedRoute />,
-    children: [{ path: "/book", element: <BookPage /> }],
+    children: [
+      { path: "/books", element: <BooksPage /> },
+      { path: "/loans", element: <LoansPage /> },
+      { path: "/fines", element: <FinesPage /> },
+    ],
   },
 ]);

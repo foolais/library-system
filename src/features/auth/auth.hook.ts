@@ -14,12 +14,10 @@ export const useLogin = () => {
       const apiPayload = response.data;
       const user = apiPayload.data;
 
-      loginStore({ username: user.username }, user.token);
-      localStorage.setItem("accessToken", user.token);
-      localStorage.setItem("refreshToken", user.refresh_token);
+      loginStore({ username: user.username }, user.token, user.refresh_token);
 
       toast.success(apiPayload.msg || "Logged in successfully!");
-      navigate("/book");
+      navigate("/books");
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError(error: any) {
@@ -34,4 +32,19 @@ export const useLogin = () => {
       }
     },
   });
+};
+
+export const useLogout = () => {
+  const logoutStore = useAuthStore((state) => state.logout);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logoutStore();
+    toast.success("Logged out successfully!");
+    navigate("/auth");
+  };
+
+  return {
+    handleLogout,
+  };
 };

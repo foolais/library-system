@@ -3,8 +3,7 @@ import { useAuthStore } from "../stores/auth.store";
 
 const isAuthenticated = () => {
   const token = useAuthStore.getState().token;
-  const localToken = localStorage.getItem("accessToken");
-  return !!token || !!localToken;
+  return !!token;
 };
 
 export const ProtectedRoute = () => {
@@ -12,5 +11,5 @@ export const ProtectedRoute = () => {
 };
 
 export const PublicRoute = () => {
-  return !isAuthenticated() ? <Outlet /> : <Navigate to="/book" />;
+  return !isAuthenticated() ? <Outlet /> : <Navigate to="/books" />;
 };
